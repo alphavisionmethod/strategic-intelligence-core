@@ -31,6 +31,7 @@ export interface PromptConstraint {
   required_elements?: string[];
   tone?: string;
   style?: string;
+  [key: string]: unknown;
 }
 
 export interface PromptTemplate {
