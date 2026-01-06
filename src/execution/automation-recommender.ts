@@ -119,7 +119,8 @@ class AutomationRecommenderService {
 
     if (step.inputs.length <= 2 && step.outputs.length <= 2) {
       score += 15;
-      if (effort === 'high') effort = 'medium';
+      // Simple inputs/outputs make automation easier
+      if (effort !== 'low') effort = 'medium';
     }
 
     return {
