@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import CEODashboard from "@/interfaces/ceo-dashboard";
 import RevenueCommandCenter from "@/interfaces/revenue-command-center";
+import AutomationStudio from "@/interfaces/automation-studio";
+import InvestmentConsole from "@/interfaces/investment-console";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -28,6 +30,12 @@ const Navigation = () => {
             </Link>
             <Link to="/revenue" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Revenue Center
+            </Link>
+            <Link to="/automation" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Automation Studio
+            </Link>
+            <Link to="/investments" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Investment Console
             </Link>
           </div>
         </div>
@@ -72,6 +80,8 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/ceo-dashboard" element={<AppLayout><CEODashboard /></AppLayout>} />
             <Route path="/revenue" element={<AppLayout><RevenueCommandCenter /></AppLayout>} />
+            <Route path="/automation" element={<AppLayout><AutomationStudio /></AppLayout>} />
+            <Route path="/investments" element={<AppLayout><InvestmentConsole /></AppLayout>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
