@@ -14,16 +14,369 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          new_value: Json | null
+          old_value: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      client_memory: {
+        Row: {
+          client_id: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          key: string
+          memory_type: Database["public"]["Enums"]["memory_type"]
+          relevance_score: number | null
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          key: string
+          memory_type: Database["public"]["Enums"]["memory_type"]
+          relevance_score?: number | null
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          key?: string
+          memory_type?: Database["public"]["Enums"]["memory_type"]
+          relevance_score?: number | null
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_memory_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_profiles: {
+        Row: {
+          buyer_psychology: Json | null
+          client_id: string
+          created_at: string
+          do_not_say: string[] | null
+          id: string
+          notes: string | null
+          preferred_structure: string | null
+          risk_level: string | null
+          updated_at: string
+          voice_preferences: Json | null
+          winning_patterns: Json | null
+        }
+        Insert: {
+          buyer_psychology?: Json | null
+          client_id: string
+          created_at?: string
+          do_not_say?: string[] | null
+          id?: string
+          notes?: string | null
+          preferred_structure?: string | null
+          risk_level?: string | null
+          updated_at?: string
+          voice_preferences?: Json | null
+          winning_patterns?: Json | null
+        }
+        Update: {
+          buyer_psychology?: Json | null
+          client_id?: string
+          created_at?: string
+          do_not_say?: string[] | null
+          id?: string
+          notes?: string | null
+          preferred_structure?: string | null
+          risk_level?: string | null
+          updated_at?: string
+          voice_preferences?: Json | null
+          winning_patterns?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_profiles_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          created_at: string
+          id: string
+          industry: string | null
+          name: string
+          offer_type: string | null
+          settings: Json | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          industry?: string | null
+          name: string
+          offer_type?: string | null
+          settings?: Json | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          industry?: string | null
+          name?: string
+          offer_type?: string | null
+          settings?: Json | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      prompt_runs: {
+        Row: {
+          client_id: string | null
+          created_at: string
+          feedback: string | null
+          human_rating: number | null
+          id: string
+          inputs: Json | null
+          metrics: Json | null
+          output: string | null
+          prompt_template_id: string | null
+          template_version: number | null
+        }
+        Insert: {
+          client_id?: string | null
+          created_at?: string
+          feedback?: string | null
+          human_rating?: number | null
+          id?: string
+          inputs?: Json | null
+          metrics?: Json | null
+          output?: string | null
+          prompt_template_id?: string | null
+          template_version?: number | null
+        }
+        Update: {
+          client_id?: string | null
+          created_at?: string
+          feedback?: string | null
+          human_rating?: number | null
+          id?: string
+          inputs?: Json | null
+          metrics?: Json | null
+          output?: string | null
+          prompt_template_id?: string | null
+          template_version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompt_runs_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prompt_runs_prompt_template_id_fkey"
+            columns: ["prompt_template_id"]
+            isOneToOne: false
+            referencedRelation: "prompt_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prompt_templates: {
+        Row: {
+          client_id: string | null
+          constraints: Json | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          intent_tags: string[] | null
+          name: string
+          output_schema: Json | null
+          parent_version_id: string | null
+          performance_score: number | null
+          scope: Database["public"]["Enums"]["prompt_scope"]
+          status: Database["public"]["Enums"]["prompt_status"]
+          template: string
+          updated_at: string
+          variables: Json | null
+          version: number
+        }
+        Insert: {
+          client_id?: string | null
+          constraints?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          intent_tags?: string[] | null
+          name: string
+          output_schema?: Json | null
+          parent_version_id?: string | null
+          performance_score?: number | null
+          scope?: Database["public"]["Enums"]["prompt_scope"]
+          status?: Database["public"]["Enums"]["prompt_status"]
+          template: string
+          updated_at?: string
+          variables?: Json | null
+          version?: number
+        }
+        Update: {
+          client_id?: string | null
+          constraints?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          intent_tags?: string[] | null
+          name?: string
+          output_schema?: Json | null
+          parent_version_id?: string | null
+          performance_score?: number | null
+          scope?: Database["public"]["Enums"]["prompt_scope"]
+          status?: Database["public"]["Enums"]["prompt_status"]
+          template?: string
+          updated_at?: string
+          variables?: Json | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompt_templates_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prompt_templates_parent_version_id_fkey"
+            columns: ["parent_version_id"]
+            isOneToOne: false
+            referencedRelation: "prompt_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
+      memory_type: "episodic" | "semantic"
+      prompt_scope: "global" | "domain" | "client"
+      prompt_status:
+        | "draft"
+        | "active"
+        | "deprecated"
+        | "champion"
+        | "challenger"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +503,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+      memory_type: ["episodic", "semantic"],
+      prompt_scope: ["global", "domain", "client"],
+      prompt_status: [
+        "draft",
+        "active",
+        "deprecated",
+        "champion",
+        "challenger",
+      ],
+    },
   },
 } as const
